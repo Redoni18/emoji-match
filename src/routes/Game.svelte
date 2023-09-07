@@ -2,6 +2,7 @@
   import Grid from "./Grid.svelte";
   import { levels } from "../types/level";
   import type { Level } from "../types/level"
+  import Found from "./Found.svelte";
 
   const level = levels[0]
 
@@ -32,10 +33,18 @@
     <div class="info"></div>
 
     <div class="grid-container">
-        <Grid grid={grid} />
+        <Grid 
+            grid={grid} 
+            on:found={(e) => {
+                found = [...found, e.detail.emojiGrid]
+            }} 
+            found={found}
+        />
     </div>
 
-    <div class="info"></div>
+    <div class="info">
+        <Found {found} />
+    </div>
 </div>
 
 
