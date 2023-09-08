@@ -42,7 +42,9 @@
     button {
         height: 50px;
         width: 50px;
-
+        border: none;
+        background: transparent;
+        outline: none;
     }
 
 

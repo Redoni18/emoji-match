@@ -7,8 +7,12 @@
 
 </script>
 
-<div class="square" class:flipped={selected}>
+<div class="square" class:flipped={selected || found}>
+
     <button on:click />
+    
+    <div class="background"></div>
+
     {#if !found }
         <img class="emoji" alt={emoji} src={getTwemojiUrl(emoji)} />
     {/if}
@@ -17,25 +21,43 @@
 <style>
     .square {
         position: relative;
-        background: yellow;
         display: flex;
         justify-content: center;
         align-items: center;
-        border-radius: 10px;
+        transform-style: preserve-3d;
+        transition: transform 0.4s;
     }
 
     .emoji {
         width: 7em;
         pointer-events: none;
+        transform: rotateY(180deg);
+        backface-visibility: hidden;
     }
 
-    .flipped button {
-        background: red;
+    .flipped {
+        transform: rotateY(-180deg);
+    }
+
+    .background {
+        position: absolute;
+        backface-visibility: hidden;
+        transform: rotateY(180deg);
+        height: 100%;
+        width: 100%;
+        background: white;
+        border-radius: 10px;
+        border: 2px solid #eee;
     }
 
     button {
         position: absolute;
         height: 100%;
         width: 100%;
+        backface-visibility: hidden;
+        border-radius: 10px;
+        border: none;
+        background: #eee;
+        font-size: inherit;
     }
 </style>
