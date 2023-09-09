@@ -23,9 +23,11 @@
                 if(grid[a] === grid[b]){
                     //correct
                     console.log("correct")
-                    dispatch('found', {
-                        emojiGrid
-                    })
+                    setTimeout(() => {
+                        dispatch('found', {
+                            emojiGrid
+                        })
+                    }, 500)
                 } else {
                     // incorrect
                     console.log("incorrect")
@@ -41,6 +43,7 @@
         }}
         selected={a === i || b === i}
         found={found.includes(emojiGrid)}
+        group={grid.indexOf(emojiGrid) === i ? 'a':'b'}
         />
     {/each}
 </div>

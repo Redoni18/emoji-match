@@ -21,7 +21,7 @@
 
     const pairs:string[] = []
 
-    for(let i = 0; i < level.size ** 2 / 2; i++) {
+    for(let i = 0; i < size ** 2 / 2; i++) {
         const index = Math.floor(Math.random() * copy.length)
         const emoji = copy[index]
 
