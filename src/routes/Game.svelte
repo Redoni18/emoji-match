@@ -1,20 +1,38 @@
 <script lang="ts">
   import Grid from "./Grid.svelte";
-  import { levels } from "../types/level";
   import type { Level } from "../types/level"
   import Found from "./Found.svelte";
   import Countdown from "./Countdown.svelte";
-  import { onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+ 
 
-  const level = levels[0]
-
-  let size:number = level.size;
-  let grid:string[] = createGrid(level);
+  let size:number;
+  let grid:string[] = [];
   let found:string[] = []
 
-  let remaining:number = level.duration
-  let duration:number = level.duration
-  let playing:boolean = true;
+  let remaining:number = 0
+  let duration:number = 0
+  let playing:boolean = false;
+  let gameGrid: Grid;
+
+  const dispatch = createEventDispatcher()
+
+  export function start(level: Level) {
+    size = level.size
+    grid = createGrid(level)
+    remaining = level.duration
+    duration = level.duration
+    found = []
+    resume()
+  }
+
+  export function resume() {
+    dispatch('play')
+    playing = true;
+    countdown()
+
+  }
+
 
   function createGrid(level: Level) {
     const copy = [...level.emojis]
@@ -45,29 +63,39 @@
         remaining = remaining_at_start - (Date.now() - start)
         if(remaining <= 0) {
             playing = false
+            gameGrid.resetTiles()
+            dispatch('lose')
         }
     }
 
     loop()
   }
-
-  onMount(countdown)
-
 </script>
 
 
 <div class="game">
     <div class="info">
-        <Countdown duration={duration} remaining={remaining}/>
+        {#if playing}
+            <Countdown duration={duration} remaining={remaining} on:click={() => {
+                dispatch('pause')
+                playing = false
+            }}/>
+        {/if}
     </div>
 
-    <div class="grid-container">
+    <div class="grid-container" style="--gridSize: {size}">
         <Grid 
             grid={grid} 
             on:found={(e) => {
                 found = [...found, e.detail.emojiGrid]
+
+                if(found.length === size**2 / 2){
+                    dispatch('win')
+                    gameGrid.resetTiles()
+                }
             }} 
             found={found}
+            bind:this={gameGrid}
         />
     </div>
 

@@ -6,6 +6,7 @@
     export let selected: boolean
     export let found: boolean;
     export let group: 'a' | 'b';
+    
 </script>
 
 <div class="square" class:flipped={selected || found}>
@@ -13,7 +14,6 @@
     <button on:click />
     
     <div class="background"></div>
-
     {#if !found }
         <img class="emoji" alt={emoji} src={getTwemojiUrl(emoji)} out:send={{key: `${emoji}:${group}`}} />
     {/if}

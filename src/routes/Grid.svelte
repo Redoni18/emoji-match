@@ -10,6 +10,12 @@
     let b: number = -1
 
     let timeOut: number;
+
+    export function resetTiles() {
+        a = -1
+        b = -1
+        clearTimeout(timeOut)
+    }
 </script>
 
 <div class="grid">
@@ -51,8 +57,8 @@
 <style>
     .grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        grid-template-rows: repeat(4, 1fr);
+        grid-template-columns: repeat(var(--gridSize), 1fr);
+        grid-template-rows: repeat(var(--gridSize), 1fr);
         grid-gap: 0.5em;
         height: 100%;
         perspective: 100vw ;

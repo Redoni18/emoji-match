@@ -6,7 +6,7 @@
 </script>
 
 <div class="countdown">
-    <button>
+    <button on:click>
         <Pause />
     </button>
 
